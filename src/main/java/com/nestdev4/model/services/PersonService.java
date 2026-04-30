@@ -2,6 +2,7 @@ package main.java.com.nestdev4.model.services;
 
 import main.java.com.nestdev4.model.entities.Car;
 import main.java.com.nestdev4.model.entities.Person;
+import main.java.com.nestdev4.model.exceptions.DealershipException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class PersonService {
             }
 
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+            throw new DealershipException("Error loading users: ", e);
         }
     }
 
@@ -179,7 +180,7 @@ public class PersonService {
             }
 
         } catch (IOException e) {
-            System.out.println("Error saving file: " + e.getMessage());
+            throw new DealershipException("Error saving users: ", e);
         }
     }
 
