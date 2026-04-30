@@ -1,12 +1,20 @@
-import main.java.com.nestdev4.entities.Person;
-import main.java.com.nestdev4.services.CarService;
-import main.java.com.nestdev4.services.PersonService;
+package main.java.com.nestdev4.model.services;
 
+import main.java.com.nestdev4.model.entities.Car;
+import main.java.com.nestdev4.model.entities.Person;
+
+import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class StartService {
 
-    public static void main(String[] args) {
+    public StartService() {
+    }
+
+
+
+
+    public void startService() {
 
         Scanner sc = new Scanner(System.in);
 
@@ -22,10 +30,12 @@ public class Main {
             System.out.println("1 - Sell car");
             System.out.println("2 - Donate car");
             System.out.println("3 - Trade cars");
-            System.out.println("4 - Exit");
+            System.out.println("4- Search for cars by CPF");
+            System.out.println("5 - Exit");
             System.out.print("Choose: ");
             option = sc.nextInt();
             sc.nextLine();
+
 
             switch (option) {
 
@@ -82,6 +92,19 @@ public class Main {
                     break;
 
                 case 4:
+                    System.out.print("INSERT CPF: ");
+                    String cpf = sc.nextLine();
+
+                    Person p = personService.findByCpf(cpf);
+
+                    if (p == null) {
+                        System.out.println("CPF not found.");
+                    } else {
+                        personService.listCarsByCpf(cpf);
+                    }
+                    break;
+
+                case 5:
                     System.out.println("Exiting...");
                     break;
 
@@ -89,7 +112,7 @@ public class Main {
                     System.out.println("Invalid option");
             }
 
-        } while (option != 4);
+        } while (option != 5);
 
         sc.close();
     }

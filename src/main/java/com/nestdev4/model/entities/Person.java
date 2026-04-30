@@ -1,4 +1,4 @@
-package main.java.com.nestdev4.entities;
+package main.java.com.nestdev4.model.entities;
 
 import java.util.List;
 

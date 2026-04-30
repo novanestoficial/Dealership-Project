@@ -1,4 +1,4 @@
-package main.java.com.nestdev4.strategy.colors;
+package main.java.com.nestdev4.model.strategy.colors;
 
 public class Colors {
 

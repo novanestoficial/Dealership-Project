@@ -1,7 +1,7 @@
-package main.java.com.nestdev4.services;
+package main.java.com.nestdev4.model.services;
 
-import main.java.com.nestdev4.entities.Car;
-import main.java.com.nestdev4.entities.Person;
+import main.java.com.nestdev4.model.entities.Car;
+import main.java.com.nestdev4.model.entities.Person;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -22,26 +22,33 @@ public class PersonService {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 
             String line;
-            br.readLine();
 
             while ((line = br.readLine()) != null) {
 
+
                 String[] parts = line.split(";");
+
+                if (parts.length < 3) {
+                    System.out.println("Linha inválida: " + line);
+                    continue;
+                }
 
                 String name = parts[0];
                 String cpf = parts[1];
                 int age = Integer.parseInt(parts[2]);
 
-                String[] plates = parts[3].split(",");
-
                 List<Car> personCars = new ArrayList<>();
 
-                for (String plate : plates) {
-                    plate = plate.trim();
+                if (parts.length > 3 && !parts[3].isBlank()) {
+                    String[] plates = parts[3].split(",");
 
-                    for (Car car : cars) {
-                        if (car.getPlate().equalsIgnoreCase(plate)) {
-                            personCars.add(car);
+                    for (String plate : plates) {
+                        plate = plate.trim();
+
+                        for (Car car : cars) {
+                            if (car.getPlate().equalsIgnoreCase(plate)) {
+                                personCars.add(car);
+                            }
                         }
                     }
                 }
@@ -58,14 +65,35 @@ public class PersonService {
         return people;
     }
 
+
+
     public Person findByCpf(String cpf) {
+
+        if (cpf == null || cpf.isBlank()) {
+            return null;
+        }
+
+        String inputCpf = cpf.trim();
+
         for (Person p : people) {
-            if (p.getCpf().trim().equalsIgnoreCase(cpf.trim())) {
+
+            if (p.getCpf() == null) continue;
+
+            String fileCpf = p.getCpf().trim();
+
+            if (fileCpf.equals(inputCpf)) {
                 return p;
             }
         }
+
+        for (Person p : people) {
+            System.out.println(p.getCpf());
+        }
+
         return null;
     }
+
+
 
     public Person findOwnerByPlate(String plate) {
         for(Person p : people) {
@@ -212,6 +240,21 @@ public class PersonService {
 
         } else {
             System.out.println("One of the cars was not found.");
+        }
+    }
+
+    public void listCarsByCpf(String cpf) {
+        Person p = findByCpf(cpf);
+
+        if (p == null) {
+            System.out.println("Person not found.");
+            return;
+        }
+
+        System.out.println(p.getName() + " owns:");
+
+        for (Car c : p.getCars()) {
+            System.out.println("- " + c.getBrand() + " " + c.getModel());
         }
     }
 }

@@ -1,6 +1,6 @@
-package main.java.com.nestdev4.services;
+package main.java.com.nestdev4.model.services;
 
-import main.java.com.nestdev4.entities.Car;
+import main.java.com.nestdev4.model.entities.Car;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
